@@ -33,8 +33,6 @@ void onBuzzerChange(boolean b) {
 }
 
 
-
-
 void setup() {
 	Serial.begin(9600);
 	pinMode(echo, INPUT);
@@ -47,7 +45,6 @@ void setup() {
 	}
 
 	remoteMe.getVariables()->observeBoolean("Buzzer" ,onBuzzerChange);
-
 	remoteMe.setConnector(new RemoteMeSocketConnector());
 	remoteMe.sendRegisterDeviceMessage(DEVICE_NAME);
 }
@@ -58,4 +55,10 @@ void loop() {
 	
 	duration = pulseIn(echo, HIGH);
 	distance = (duration / 2) / 29.1;
+
+  if(distance >= 1500){
+    digitalWrite(buzz, HIGH);
+    remoteMe.sendPushNotificationMessage(1,"Social Distancing App","PERHATIKAN JARAK! JARAK ANDA TERLALU DEKAT!","","","");
+  } 
+  
 }
